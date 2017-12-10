@@ -11,27 +11,93 @@ var triviaGame = {
 		this.$timeDisplay = this.$game.find("#time_display");
 		this.$questionDisplay = this.$game.find("#question_display");
 		this.$choiceDisplay = this.$game.find("#choice_display");
+		this.$selChoice;
 
 		this.$hiddenItems = this.$game.find(".HIDE");
 
-		this.qCount = 0;
+		this.queryCount = 0;
 		this.correctCount = 0;
 		this.wrongCount = 0;
-		this.timeCount = 20;
+		this.missedCount = 0;
+		this.timeCount = 0;
+		this.isTimerON = 0;
+		this.answer = null;
 	},
 	bindEvents: function() {
-		this.$startBtn.on("click", this.startGame.bind(this) )
+		this.$startBtn.on("click", this.startGame.bind(this) );
+		this.$choiceDisplay.on("click", ".choice", this.checkAnswer.bind(this));
 	},
 	startGame: function() {
 		this.$hiddenItems.removeClass("HIDE");
 		this.$startBtn.addClass("HIDE");
+
+		this.displayQuery();
 	},
-	build: function() {
-		// var queryItem = question[i]
+	gameTimer: function() {
+		if ( !this.isTimerON ) {
+			this.timer = setInterval(function(){
+
+				if ( this.timeCount === 0 ) {
+					this.missedCount++;
+					return this.displayQuery();
+				}
+
+				this.timeCount--;
+				this.$timeDisplay.text( this.timeCount);
+			}, 1000);
+
+		}else {
+			clearInterval(this.timer);
+		}
 	},
-	question: [
+	displayQuery: function() {
+		if (this.queryCount >= 10) return this.displayResults();
+
+		this.timeCount = 10;
+		this.$timeDisplay.text(this.timeCount);
+		
+		var queryStr = this.questionList[this.queryCount].query;
+		this.$questionDisplay.text( queryStr );
+		this.answer = this.questionList[this.queryCount].answer;
+		
+		this.$choiceDisplay.empty();
+		
+		var choiceList = this.questionList[this.queryCount].choices;
+
+		for ( var c in choiceList ) {
+			var div = $("<div>",{class: "choice"}).text(choiceList[c]);
+			this.$choiceDisplay.append(div);
+		}
+		this.queryCount++;
+
+		this.$selChoice = this.$choiceDisplay.find(".choice");
+
+		this.gameTimer();
+	},
+	checkAnswer: function(event) {
+		event.stopPropagation();
+		var _this = $(event.target);
+
+		if ( this.answer === _this.text() )  {
+			this.correctCount++;
+
+		}else {
+			this.missedCount--;
+		};
+
+		// this_obj.displayQuery();
+
+		// clearInterval(this.timer);
+	},
+	displayResults: function() {
+
+		if (this.queryCount >= 10) {
+
+		}
+	},
+	questionList: [
 		{
-			query: "The name given to Thor's hammer is?",
+			query: "What is the name given to Thor's hammer?",
 			choices: ["Mythril", "Mjolnir", "Gram", "Gungnir"],
 			answer: "Mjolnir"
 		},
@@ -80,6 +146,5 @@ var triviaGame = {
 			choices: ["Brooklyn", "Harlem", "Bronx", "Queens"],
 			answer: "Queens"
 		}
-
 	]
 }; triviaGame.init();

@@ -1,5 +1,5 @@
 /*  CSS. */
-* { box-sizing: border-box; }
+* { box-sizing: border-box; user-select: none; }
 
 h1 { 
 	font-size: 1.8em;
@@ -56,11 +56,18 @@ html { background: url("../img/avengers_bg.jpg") 0 0 / cover no-repeat; }
 	padding: 20px 0;
 	margin: 40px auto 20px;
 	text-align: center;
-	background-color: rgba(100,100,100,0.55);
+	background-color: rgba(150,150,150,0.55);
 }
 #trivia_name { margin-bottom: 40px; }
 #question_display, #start_btn, #choice_display { 
 	margin-bottom: 20px;
+}
+#question_display {
+	width: 700px;
+	height: 80px;
+	padding: 15px;
+	margin: 0 auto 15px;
+	background-color: #bfbfbf;
 }
 #start_btn {
 	font-weight: 800;
@@ -95,8 +102,8 @@ html { background: url("../img/avengers_bg.jpg") 0 0 / cover no-repeat; }
 	width: inherit;
 	margin: 5px;
 	padding: 15px 0;
-	background-color: #bfbfbf;
+	background-color: #006cff;
 	color: #ffffff;
 	cursor: pointer;
 }
-#choice_display div:hover { background-color: #006cff; }
+#choice_display div:hover { background-color: #003e95; }
