@@ -63,11 +63,15 @@ html { background: url("../img/avengers_bg.jpg") 0 0 / cover no-repeat; }
 	margin-bottom: 20px;
 }
 #question_display {
+	line-height: 1.2em;
 	width: 700px;
 	height: 80px;
 	padding: 15px;
 	margin: 0 auto 15px;
 	background-color: rgba(150,150,150,0.20);
+}
+#question_display span {
+	color: #ffffff;
 }
 #start_btn {
 	font-weight: 800;
@@ -106,3 +110,7 @@ html { background: url("../img/avengers_bg.jpg") 0 0 / cover no-repeat; }
 	color: #ffffff;
 }
 #choice_display .choice:hover { background-color: #003e95; }
+
+#choice_display .correct { background-color: #3cc61f !important; }
+
+#choice_display .wrong { background-color: #c62c1f !important; }

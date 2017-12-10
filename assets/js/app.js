@@ -14,14 +14,6 @@ var triviaGame = {
 		this.$selChoice;
 
 		this.$hiddenItems = this.$game.find(".HIDE");
-
-		this.queryCount = 0;
-		this.correctCount = 0;
-		this.wrongCount = 0;
-		this.missedCount = 0;
-		this.timeCount = 0;
-		this.isTimerON = 0;
-		this.answer = null;
 	},
 	bindEvents: function() {
 		this.$startBtn.on("click", this.startGame.bind(this) );
@@ -31,9 +23,13 @@ var triviaGame = {
 		this.$hiddenItems.removeClass("HIDE");
 		this.$startBtn.addClass("HIDE");
 		
+		this.queryCount = 0;
 		this.correctCount = 0;
 		this.wrongCount = 0;
 		this.missedCount = 0;
+		this.timeCount = 0;
+		this.isTimerON = 0;
+		this.answer = null;
 		
 		this.displayQuery();
 	},
@@ -51,7 +47,7 @@ var triviaGame = {
 			this.gameTimer();
 			this.missedCount++;
 			console.log(this.missedCount);
-			this.$questionDisplay.text("Times up the answer is");
+			this.$questionDisplay.html("Times up the answer is:<br><span>" + this.answer + "</span>");
 
 			return this.displayResults();
 		}
@@ -66,18 +62,24 @@ var triviaGame = {
 		if ( this.answer === _this.text() )  {
 			this.correctCount++;
 			console.log(this.correctCount);
-			this.$questionDisplay.text("Correct");
+			this.$questionDisplay.text("Correct:");
+			_this.addClass("correct");
+			this.$choiceDisplay.html(_this);
 			this.displayResults();
 		}else {
 			this.wrongCount++;
 			console.log(this.wrongCount);
-			this.$questionDisplay.text("Wrong it's");
+			this.$questionDisplay.html("Wrong the correct answer is:<br><span>" + this.answer + "</span>");
+			_this.addClass("wrong");
+			this.$choiceDisplay.html(_this);
 			this.displayResults();			
 		};
 	},
 	displayQuery: function() {
-		if (this.queryCount >= 10) return this.displayResults();
-
+		if (this.queryCount >= this.questionList.length) {
+			this.queryCount = 00;
+			return this.displayResults();
+		}
 		this.timeCount = 15;
 		this.$timeDisplay.text(this.timeCount);
 		
@@ -94,13 +96,12 @@ var triviaGame = {
 			this.$choiceDisplay.append(div);
 		}
 		this.queryCount++;
-
 		this.$selChoice = this.$choiceDisplay.find(".choice");
 
 		this.gameTimer();
 	},
 	displayResults: function() {
-		if (this.queryCount >= 10) {
+		if (this.queryCount === 00) {
 			this.$choiceDisplay.empty();			
 			this.$questionDisplay.text("Results");
 			this.$choiceDisplay.append($("<div>").text("Correct: " + this.correctCount));
@@ -109,9 +110,7 @@ var triviaGame = {
 			
 			this.$startBtn.removeClass("HIDE");
 			this.$startBtn.text("Restart  Game");
-			this.cacheDom();
 		} else {
-			this.$choiceDisplay.html($("<div>").text(this.answer));
 			setTimeout( this.displayQuery.bind(this), 2500);
 		}
 	},
