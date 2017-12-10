@@ -38,23 +38,42 @@ var triviaGame = {
 		this.displayQuery();
 	},
 	gameTimer: function() {
-		if ( !this.isTimerON ) {
-			this.isTimerON = 1;
+		if ( this.isTimerON === 0 ) {
 			this.timer = setInterval(this.counter.bind(this), 1000);
 
 		}else {
-			this.isTimerON = 0;
 			clearInterval(this.timer);
-
 		}
+		this.isTimerON = this.isTimerON ? 0 : 1;
 	},
 	counter: function() {
 		if ( this.timeCount === 0 ) {
+			this.gameTimer();
 			this.missedCount++;
-			return this.displayQuery();
+			console.log(this.missedCount);
+			this.$questionDisplay.text("Times up the answer is");
+
+			return this.displayResults();
 		}
 		this.timeCount--;
 		this.$timeDisplay.text( this.timeCount );
+	},
+	checkAnswer: function(event) {
+		event.stopPropagation();
+		var _this = $(event.target);
+		
+		this.gameTimer();
+		if ( this.answer === _this.text() )  {
+			this.correctCount++;
+			console.log(this.correctCount);
+			this.$questionDisplay.text("Correct");
+			this.displayResults();
+		}else {
+			this.wrongCount++;
+			console.log(this.wrongCount);
+			this.$questionDisplay.text("Wrong it's");
+			this.displayResults();			
+		};
 	},
 	displayQuery: function() {
 		if (this.queryCount >= 10) return this.displayResults();
@@ -80,34 +99,25 @@ var triviaGame = {
 
 		this.gameTimer();
 	},
-	checkAnswer: function(event) {
-		event.stopPropagation();
-		var _this = $(event.target);
-
-		if ( this.answer === _this.text() )  {
-			this.correctCount++;
-			this.displayResults();
-		}else {
-			this.wrongCount--;
-			this.gameTimer();
-		};
-	},
 	displayResults: function() {
-
 		if (this.queryCount >= 10) {
+			this.$choiceDisplay.empty();			
+			this.$questionDisplay.text("Results");
+			this.$choiceDisplay.append($("<div>").text("Correct: " + this.correctCount));
+			this.$choiceDisplay.append($("<div>").text("Wrong: " + this.wrongCount));
+			this.$choiceDisplay.append($("<div>").text("Missed: " + this.missedCount));
 			
-			this.$choiceDisplay.append($("<div>").text(this.correctCount));
-			this.$choiceDisplay.append($("<div>").text(this.wrongCount));
-			this.$choiceDisplay.append($("<div>").text(this.missedCount));
-			
-			this.$start_btn.text("Restart  Game");
-		}else {
-			this.displayQuery();
+			this.$startBtn.removeClass("HIDE");
+			this.$startBtn.text("Restart  Game");
+			this.cacheDom();
+		} else {
+			this.$choiceDisplay.html($("<div>").text(this.answer));
+			setTimeout( this.displayQuery.bind(this), 2500);
 		}
 	},
 	questionList: [
 		{
-			query: "What is the name given to Thor's hammer?",
+			query: "What is the name of Thor's hammer?",
 			choices: ["Mythril", "Mjolnir", "Gram", "Gungnir"],
 			answer: "Mjolnir"
 		},
@@ -123,7 +133,7 @@ var triviaGame = {
 		},
 		{
 			query: "What city did Dr. Strange had to go to find The Ancient One?",
-			choices: ["Janakpur", "Kamar-Taj ", "Shangri-La", "Kathmandu"],
+			choices: ["Janakpur", "Kamar-Taj", "Shangri-La", "Kathmandu"],
 			answer: "Kamar-Taj"
 		},
 		{

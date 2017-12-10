@@ -73,7 +73,7 @@ html { background: url("../img/avengers_bg.jpg") 0 0 / cover no-repeat; }
 	font-weight: 800;
 	background-color: #31bde2;
 	width: 200px;
-	margin: 0 auto;
+	margin: 20px auto 0;
 	padding: 15px 0;
 	border-radius: 20px;
 	cursor: pointer;
@@ -104,6 +104,5 @@ html { background: url("../img/avengers_bg.jpg") 0 0 / cover no-repeat; }
 	padding: 15px 0;
 	background-color: #006cff;
 	color: #ffffff;
-	cursor: pointer;
 }
-#choice_display div:hover { background-color: #003e95; }
+#choice_display .choice:hover { background-color: #003e95; }
