@@ -30,30 +30,36 @@ var triviaGame = {
 	startGame: function() {
 		this.$hiddenItems.removeClass("HIDE");
 		this.$startBtn.addClass("HIDE");
-
+		
+		this.correctCount = 0;
+		this.wrongCount = 0;
+		this.missedCount = 0;
+		
 		this.displayQuery();
 	},
 	gameTimer: function() {
 		if ( !this.isTimerON ) {
-			this.timer = setInterval(function(){
-
-				if ( this.timeCount === 0 ) {
-					this.missedCount++;
-					return this.displayQuery();
-				}
-
-				this.timeCount--;
-				this.$timeDisplay.text( this.timeCount);
-			}, 1000);
+			this.isTimerON = 1;
+			this.timer = setInterval(this.counter.bind(this), 1000);
 
 		}else {
+			this.isTimerON = 0;
 			clearInterval(this.timer);
+
 		}
+	},
+	counter: function() {
+		if ( this.timeCount === 0 ) {
+			this.missedCount++;
+			return this.displayQuery();
+		}
+		this.timeCount--;
+		this.$timeDisplay.text( this.timeCount );
 	},
 	displayQuery: function() {
 		if (this.queryCount >= 10) return this.displayResults();
 
-		this.timeCount = 10;
+		this.timeCount = 15;
 		this.$timeDisplay.text(this.timeCount);
 		
 		var queryStr = this.questionList[this.queryCount].query;
@@ -80,19 +86,23 @@ var triviaGame = {
 
 		if ( this.answer === _this.text() )  {
 			this.correctCount++;
-
+			this.displayResults();
 		}else {
-			this.missedCount--;
+			this.wrongCount--;
+			this.gameTimer();
 		};
-
-		// this_obj.displayQuery();
-
-		// clearInterval(this.timer);
 	},
 	displayResults: function() {
 
 		if (this.queryCount >= 10) {
-
+			
+			this.$choiceDisplay.append($("<div>").text(this.correctCount));
+			this.$choiceDisplay.append($("<div>").text(this.wrongCount));
+			this.$choiceDisplay.append($("<div>").text(this.missedCount));
+			
+			this.$start_btn.text("Restart  Game");
+		}else {
+			this.displayQuery();
 		}
 	},
 	questionList: [

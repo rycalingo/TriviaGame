@@ -52,13 +52,13 @@ html { background: url("../img/avengers_bg.jpg") 0 0 / cover no-repeat; }
 
 #trivia_game {
 	width: 100%;
-	height: 500px;
-	padding: 20px 0;
+	height: 600px;
+	padding: 60px 0 40px;
 	margin: 40px auto 20px;
 	text-align: center;
 	background-color: rgba(150,150,150,0.55);
 }
-#trivia_name { margin-bottom: 40px; }
+#trivia_name { margin-bottom: 60px; }
 #question_display, #start_btn, #choice_display { 
 	margin-bottom: 20px;
 }
@@ -67,7 +67,7 @@ html { background: url("../img/avengers_bg.jpg") 0 0 / cover no-repeat; }
 	height: 80px;
 	padding: 15px;
 	margin: 0 auto 15px;
-	background-color: #bfbfbf;
+	background-color: rgba(150,150,150,0.20);
 }
 #start_btn {
 	font-weight: 800;
@@ -81,8 +81,8 @@ html { background: url("../img/avengers_bg.jpg") 0 0 / cover no-repeat; }
 #start_btn span { color: #ffffff; }
 
 #time_display { 
-	margin-bottom: 20px;
-	font-size: 18px;
+	margin-bottom: 40px;
+	font-size: 22px;
 	font-weight: 900;
 	color: #000000;
 }
