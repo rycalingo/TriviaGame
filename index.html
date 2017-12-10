@@ -2,7 +2,7 @@
 <html lang="en-us">
 <head>
 	<meta charset="UTF-8">
-	<title>Trivia Game!</title>
+	<title>Marvel Movie Trivia!</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="stylesheet" type="text/css" href="./assets/css/reset.css">
@@ -12,13 +12,27 @@
 </head>
 
 <body>
-	<p class="text1">Trivia Game!</p>
+	<div id="trivia_game">
+		<h1 id="trivia_name">Marvel Movie Trivia!</h1>
+		<p id="time_display" class="HIDE">00</p>
+
+		<h2 id="question_display" class="HIDE">20 Questions?</h3>
+
+		<div id="choice_display" class="HIDE">
+			<div class="answer">Answer A</div>
+			<div class="answer">Answer B</div>
+			<div class="answer">Answer C</div>
+			<div class="answer">Answer D</div>
+		</div>
+		<div id="start_btn"><span>Begin Quiz!</span></div>
+
+	</div>
 
 
 
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script type="text/javascript" src="./assets/app.js"></script>
+<script type="text/javascript" src="./assets/js/app.js"></script>
 </body>
 
 </html>
